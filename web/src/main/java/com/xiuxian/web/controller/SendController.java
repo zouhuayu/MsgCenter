@@ -14,6 +14,7 @@ public class SendController {
 
     @RequestMapping("/send")
     public Result<String> send(@RequestBody BaseReq baseReq) {
+
         if (StringUtils.isBlank(baseReq.getUserName())) {
             throw new ValidParamException(ExceptionEnum.ERROR_PARAM);
         }

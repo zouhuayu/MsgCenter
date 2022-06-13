@@ -2,6 +2,7 @@ package com.xiuxian.response;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xiuxian.log.TraceIdContext;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -20,11 +21,11 @@ public final class Result<T> {
     private T data;
 
     public static <T> Result<T> ofSuccess(T data) {
-        return new Result<T>().setSuccess(true).setCode(200).setMsg("成功").setData(data);
+        return new Result<T>().setSuccess(true).setCode(200).setMsg("成功").setData(data).setResponseId(TraceIdContext.getTraceId());
     }
 
     public static Result<Void> ofFailure(Integer errCode, String errorMsg) {
-        return new Result<Void>().setSuccess(false).setCode(errCode).setMsg(errorMsg);
+        return new Result<Void>().setSuccess(false).setCode(errCode).setMsg(errorMsg).setResponseId(TraceIdContext.getTraceId());
     }
 
     public static void main(String[] args) {
@@ -32,4 +33,5 @@ public final class Result<T> {
         Result<Void> voidResult = ofFailure(1000, "失败了~");
         System.out.println("=== ：" + JSON.toJSONString(voidResult));
     }
+
 }
